@@ -4,6 +4,7 @@ import 'package:boar_game/caracteristicas/vistas/vista-NombreNoConfirmado.dart';
 import 'package:boar_game/caracteristicas/vistas/vista-cargando.dart';
 import 'package:boar_game/caracteristicas/vistas/vista-solicitandoNombre.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'caracteristicas/vistas/vista-NombreConfirmado.dart';
 import 'caracteristicas/vistas/vista-solicitud-actualizacion.dart';
