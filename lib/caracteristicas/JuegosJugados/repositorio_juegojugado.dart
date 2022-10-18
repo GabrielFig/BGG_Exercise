@@ -33,7 +33,7 @@ Either<Problema, Set<JuegoJugado>> _obtenerJuegosJugadosDesdeXML(String elXml) {
     final connjuntoIterable = losPlay.map((e) {
       String nombre = e.getAttribute('name')!;
       String id = e.getAttribute('objectid')!;
-      return JuegoJugado.constructor(nombrePropuesto: nombre, idPropuesto: id);
+      return JuegoJugado.constructor(nombrePropuesta: nombre, idPropuesta: id);
     });
     final conjunto = Set<JuegoJugado>.from(connjuntoIterable);
     return Right(conjunto);
