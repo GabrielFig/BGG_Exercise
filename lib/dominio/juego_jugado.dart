@@ -9,17 +9,18 @@ class JuegoJugado {
     required this.id,
   });
 
-  factory JuegoJugado.constructor(String nombrePropuesta, idpropuesta) {
+  factory JuegoJugado.constructor(
+      {required String nombrePropuesta, idPropuesta}) {
     if (nombrePropuesta.trim().isEmpty) throw JuegoJugadoMalFormado();
-    if (idpropuesta.trim().isEmpty) throw JuegoJugadoMalFormado();
-    return JuegoJugado._(nombre: nombrePropuesta, id: idpropuesta);
+    if (idPropuesta.trim().isEmpty) throw JuegoJugadoMalFormado();
+    return JuegoJugado._(nombre: nombrePropuesta, id: idPropuesta);
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(covariant JuegoJugado other) {
     if (identical(this, other)) return true;
 
-    return other is JuegoJugado && other.nombre == nombre && other.id == id;
+    return other.nombre == nombre && other.id == id;
   }
 
   @override
