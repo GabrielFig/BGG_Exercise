@@ -9,8 +9,7 @@ class JuegoJugado {
     required this.id,
   });
 
-  factory JuegoJugado.constructor(
-      {required String nombrePropuesta, idPropuesta}) {
+  factory JuegoJugado.constructor(String nombrePropuesta, idPropuesta) {
     if (nombrePropuesta.trim().isEmpty) throw JuegoJugadoMalFormado();
     if (idPropuesta.trim().isEmpty) throw JuegoJugadoMalFormado();
     return JuegoJugado._(nombre: nombrePropuesta, id: idPropuesta);
