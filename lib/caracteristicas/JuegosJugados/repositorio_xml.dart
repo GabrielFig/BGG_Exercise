@@ -6,15 +6,16 @@ import 'package:fpdart/fpdart.dart';
 import 'package:xml/xml.dart';
 
 abstract class RepositorioXml {
-  Future<Either<Problema, List<String>>> obtenerXml(NickFormado nickFormado);
+  Future<Either<Problema, List<String>>> obtenerXml(NickFormado nick);
 }
 
 class RepositorioXmlPruebas extends RepositorioXml {
   final tamanoPagina = 2;
   @override
   Future<Either<Problema, List<String>>> obtenerXml(NickFormado nick) async {
-    if (!['benthor', 'fokuleh'].contains(nick.valor))
+    if (!['benthor', 'fokuleh'].contains(nick.valor)) {
       return Left(UsuarioNoRegistrado());
+    }
     try {
       String elXml = File(
               './test/caracteristicas/juegosJugados/${nick.valor.toLowerCase()}1.xml')

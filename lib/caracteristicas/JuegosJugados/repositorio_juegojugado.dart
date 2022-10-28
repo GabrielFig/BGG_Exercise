@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:boar_game/caracteristicas/JuegosJugados/repositorio_xml.dart';
 import 'package:boar_game/dominio/juego_jugado.dart';
 import 'package:boar_game/dominio/problema.dart';
