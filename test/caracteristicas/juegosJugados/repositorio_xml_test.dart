@@ -3,21 +3,30 @@ import 'package:boar_game/dominio/variable_dominio.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('si le paso benthor me debe regresar un solo xml', () async {
-    RepositorioXml repositorio = RepositorioXmlPruebas();
+  test('Benthor me debe regresar un solo xml', () async {
+    RepositorioXmlPruebas repositorio = RepositorioXmlPruebas();
     final resultado =
         await repositorio.obtenerXml(NickFormado.constructor('benthor'));
     resultado.match((l) {
       assert(false);
-    }, (r) => expect(r.length, equals(1)));
+    }, (r) {
+      expect(r.length, equals(1));
+    });
   });
-
-  test('si le paso fokuleh me debe regresar 4', () async {
-    RepositorioXml repositorio = RepositorioXmlPruebas();
+  test('Fokuleh me debe regresar 4 xml', () async {
+    RepositorioXmlPruebas repositorio = RepositorioXmlPruebas();
     final resultado =
         await repositorio.obtenerXml(NickFormado.constructor('fokuleh'));
     resultado.match((l) {
       assert(false);
-    }, (r) => expect(r.length, equals(4)));
+    }, (r) {
+      expect(r.length, equals(4));
+    });
+  });
+  test('Si le paso algo me debe regresar un problema', () async {
+    RepositorioXmlPruebas repositorio = RepositorioXmlPruebas();
+    final resultado =
+        await repositorio.obtenerXml(NickFormado.constructor('uwuowo'));
+    expect(resultado.isLeft(), true);
   });
 }

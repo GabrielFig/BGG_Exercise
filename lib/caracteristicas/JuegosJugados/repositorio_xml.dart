@@ -12,38 +12,36 @@ abstract class RepositorioXml {
 class RepositorioXmlPruebas extends RepositorioXml {
   final tamanoPagina = 2;
   @override
-  Future<Either<Problema, List<String>>> obtenerXml(
-      NickFormado nickFormado) async {
-        if (nickFormado.valor == 'benthor') {
-          try {
-            String xml = File('/test/caracteristicas/juegosJugados/benthor.xml')
-              .readAsStringSync();
-            int cuantasPaginas = _obtenerCuantasPaginasDesdeXml(xml);
-            List<String> nombrePaginas = 
-              _obtenerNombresPaginas(cuantasPaginas, nickFormado);
-            return Right(
-              nombrePaginas.map((e) => File(e).readAsString()).toList());
-            
-          } catch (e) {
-              return left(VersionIncorrectaXml());
-      } 
-            
-          }
-    return Left(UsuarioNoRegistrado());
-  }
-  
-  int _obtenerCuantasPaginasDesdeXml(String xml) {
-    XmlDocument documento = XmlDocument.parse(xml);
-    String cadenaNumero = documento.getElement('plays')!.getAttribute('total')!;
-    int numero  = int.parse(cadenaNumero);
-    return (numero/tamanoPagina).ceil();
+  Future<Either<Problema, List<String>>> obtenerXml(NickFormado nick) async {
+    if (!['benthor', 'fokuleh'].contains(nick.valor))
+      return Left(UsuarioNoRegistrado());
+    try {
+      String elXml = File(
+              './test/caracteristicas/juegosJugados/${nick.valor.toLowerCase()}1.xml')
+          .readAsStringSync();
+      int cuantasPaginas = _obtenerCuantasPaginasDesdeXml(elXml);
+      List<String> nombresPaginas =
+          _obtenerNombresPaginas(cuantasPaginas, nick);
+      return Right(
+          nombresPaginas.map((e) => File(e).readAsStringSync()).toList());
+    } catch (e) {
+      return Left(VersionIncorrectaXml());
+    }
   }
 
-  List<String> _obtenerNombresPaginas(int cuantasPaginas, NickFormado nickFormado) {
-    const base = '/test/caracteristicas/juegosJugados/$(nickFormado.valor)1.xml';
+  int _obtenerCuantasPaginasDesdeXml(String elXml) {
+    XmlDocument documento = XmlDocument.parse(elXml);
+    int totalJugadas =
+        int.parse(documento.getElement("plays")!.getAttribute("total")!);
+    int paginas = (totalJugadas / tamanoPagina).ceil();
+    return paginas;
+  }
+
+  List<String> _obtenerNombresPaginas(int cuantasPaginas, NickFormado nick) {
+    var base = './test/caracteristicas/juegosJugados/${nick.valor}';
     List<String> lista = [];
-    for (var i = 0; i < cuantasPaginas; i++) {
-      lista.add('$base'+'$i'+'xml');
+    for (var i = 1; i <= cuantasPaginas; i++) {
+      lista.add('$base$i.xml');
     }
     return lista;
   }

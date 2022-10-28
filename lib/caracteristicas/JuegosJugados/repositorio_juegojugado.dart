@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:boar_game/caracteristicas/JuegosJugados/repositorio_xml.dart';
 import 'package:boar_game/dominio/juego_jugado.dart';
 import 'package:boar_game/dominio/problema.dart';
 import 'package:fpdart/fpdart.dart';
@@ -7,37 +8,52 @@ import 'package:xml/xml.dart';
 import '../../dominio/variable_dominio.dart';
 
 abstract class RepositorioJuegosJugados {
-  Future<Either<Problema, Set<JuegoJugado>>> obtenerJugadasRegistradas(
+  final RepositorioXml repositorioXml;
+  RepositorioJuegosJugados(this.repositorioXml);
+  Future<Either<Problema, Set<JuegoJugado>>> obtenerJuegosJugados(
       NickFormado nick);
 }
 
 class RepositorioJuegosJugadosPruebas extends RepositorioJuegosJugados {
+  RepositorioJuegosJugadosPruebas(repositorioXml) : super(repositorioXml);
   @override
-  Future<Either<Problema, Set<JuegoJugado>>> obtenerJugadasRegistradas(
+  Future<Either<Problema, Set<JuegoJugado>>> obtenerJuegosJugados(
       NickFormado nick) async {
-    String elXml = _obtenerXmlJugadasDelDisco(nombre: nick.valor);
-    final resultado = _obtenerJuegosJugadosDesdeXML(elXml);
-    return resultado;
-  }
-}
-
-String _obtenerXmlJugadasDelDisco({required String nombre}) {
-  return File('/test/caracteristicas/juegosJugados/benthor.xml')
-      .readAsStringSync();
-}
-
-Either<Problema, Set<JuegoJugado>> _obtenerJuegosJugadosDesdeXML(String elXml) {
-  try {
-    XmlDocument documento = XmlDocument.parse(elXml);
-    final losPlay = documento.findAllElements('item');
-    final connjuntoIterable = losPlay.map((e) {
-      String nombre = e.getAttribute('name')!;
-      String id = e.getAttribute('objectid')!;
-      return JuegoJugado.constructor(nombre, id);
+    final Either<Problema, List<String>> resultadoXml =
+        await repositorioXml.obtenerXml(nick);
+    return resultadoXml.match((l) {
+      return Left(l);
+    }, (r) {
+      final resultado = _obtenerJuegosJugadosDesdeXml(r);
+      return resultado;
     });
-    final conjunto = Set<JuegoJugado>.from(connjuntoIterable);
+  }
+
+  Either<Problema, Set<JuegoJugado>> _obtenerUnSoloSet(String elXml) {
+    try {
+      XmlDocument documento = XmlDocument.parse(elXml);
+      final losPlay = documento.findAllElements('item');
+      final conjuntoIterable = losPlay.map((e) {
+        String nombre = e.getAttribute('name')!;
+        String id = e.getAttribute('objectid')!;
+        return JuegoJugado.constructor(nombre, id);
+      });
+      final conjunto = Set<JuegoJugado>.from(conjuntoIterable);
+      return Right(conjunto);
+    } catch (e) {
+      return Left(VersionIncorrectaXml());
+    }
+  }
+
+  Either<Problema, Set<JuegoJugado>> _obtenerJuegosJugadosDesdeXml(
+      List<String> losXml) {
+    final resultado = losXml.map((e) => _obtenerUnSoloSet(e));
+    if (resultado.any((element) => element is Problema)) {
+      return Left(VersionIncorrectaXml());
+    }
+    final soloSets = resultado.map((e) => e.getOrElse((l) => {}));
+    final conjunto =
+        soloSets.fold<Set<JuegoJugado>>({}, (p, a) => p..addAll(a.toList()));
     return Right(conjunto);
-  } catch (e) {
-    return Left(VersionIncorrectaXml());
   }
 }
