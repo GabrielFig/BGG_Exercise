@@ -1,53 +1,47 @@
 import 'package:boar_game/caracteristicas/repositorio_verificacion.dart';
 import 'package:boar_game/dominio/problema.dart';
+import 'package:boar_game/dominio/registro_usuario.dart';
 import 'package:boar_game/dominio/variable_dominio.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('Pruebas verificacion offline', () {
-    test('Con Benthor me regresa valor', () async {
+  group('Pruebas de verificacion offline', () {
+    test('Con benthor me regresa valor', () {
       RepositorioPruebasVerificacion repositorio =
           RepositorioPruebasVerificacion();
-      var resultado = await repositorio
-          .obtenerRegistroUsuario(NickFormado.constructor('Benthor'));
-      resultado.match(
-        (l) {
-          expect(false, equals(true));
-        },
-        (r) {
-          expect(r.anioRegistro, equals(2012));
-          expect(r.nombre, equals('Benthor'));
-          expect(r.apellido, equals('Benthor'));
-          expect(r.estado, equals(''));
-          expect(r.pais, equals(''));
-        },
-      );
+      var resultado = repositorio
+          .obtenerRegistroUsuario(NickFormado.constructor('benthor'));
+      resultado.match((l) => expect(false, equals(true)), (r) {
+        expect(r.anioRegistro, equals(2012));
+        expect(r.nombre, equals('Benthor'));
+        expect(r.apellido, equals('Benthor'));
+        expect(r.estado, equals(mensajeCampoVacio));
+        expect(r.pais, equals(mensajeCampoVacio));
+      });
     });
-    test('Con AMLO me regresa error', () async {
+    test('con AMLO me regresa error', () {
       RepositorioPruebasVerificacion repositorio =
           RepositorioPruebasVerificacion();
-      var resultado = await repositorio
-          .obtenerRegistroUsuario(NickFormado.constructor('amlo'));
+      var resultado =
+          repositorio.obtenerRegistroUsuario(NickFormado.constructor('amlo'));
+
       resultado.match((l) {
         expect(true, equals(true));
       }, (r) {
-        expect(true, equals(true));
+        expect(true, equals(false));
       });
     });
-    test('Con xml incorrecto', () async {
+    test('Con incorrecto', () {
       RepositorioPruebasVerificacion repositorio =
           RepositorioPruebasVerificacion();
-      var resultado = await repositorio
-          .obtenerRegistroUsuario(NickFormado.constructor('incorrecto'));
+      var resultado =
+          repositorio.obtenerRegistroUsuario(NickFormado.constructor('amlo'));
+
       resultado.match((l) {
         expect(l, isA<VersionIncorrectaXml>());
       }, (r) {
         assert(false);
       });
     });
-  });
-
-  group('Prueba de partidas offline', () {
-    test('', () {});
   });
 }
