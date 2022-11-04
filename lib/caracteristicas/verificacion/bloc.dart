@@ -41,7 +41,7 @@ class JuegoConfirmado extends Evento {
 }
 
 class BlocVerificacion extends Bloc<Evento, Estado> {
-  final repositorioVerificacion _repositorioVerificacion;
+  final RepositorioVerificacion _repositorioVerificacion;
   BlocVerificacion(this._repositorioVerificacion) : super(Creandose()) {
     on<Creado>((event, emit) {
       emit(SolicitandoNombre());
@@ -52,8 +52,9 @@ class BlocVerificacion extends Bloc<Evento, Estado> {
           await _repositorioVerificacion.obtenerRegistroUsuario(event.nick);
       resultado.match((l) {
         if (l is VersionIncorrectaXml) emit(MostrandoSolicitudActualizacion());
-        if (l is UsuarioNoRegistrado)
+        if (l is UsuarioNoRegistrado) {
           emit(MostrandoNombreNoConfirmado(event.nick));
+        }
       }, (r) {
         emit(MostrandoNombreConfirmado(r));
       });
