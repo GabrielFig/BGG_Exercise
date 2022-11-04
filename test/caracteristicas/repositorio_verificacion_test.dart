@@ -5,43 +5,50 @@ import 'package:boar_game/dominio/variable_dominio.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('Pruebas de verificacion offline', () {
-    test('Con benthor me regresa valor', () {
+  group('Pruebas verificacion offline', () {
+    test('Con Benthor me regresa valor', () async {
       RepositorioPruebasVerificacion repositorio =
           RepositorioPruebasVerificacion();
-      var resultado = repositorio
-          .obtenerRegistroUsuario(NickFormado.constructor('benthor'));
-      resultado.match((l) => expect(false, equals(true)), (r) {
-        expect(r.anioRegistro, equals(2012));
-        expect(r.nombre, equals('Benthor'));
-        expect(r.apellido, equals('Benthor'));
-        expect(r.estado, equals(mensajeCampoVacio));
-        expect(r.pais, equals(mensajeCampoVacio));
-      });
+      var resultado = await repositorio
+          .obtenerRegistroUsuario(NickFormado.constructor('Benthor'));
+      resultado.match(
+        (l) {
+          expect(false, equals(true));
+        },
+        (r) {
+          expect(r.anioRegistro, equals(2012));
+          expect(r.nombre, equals('Benthor'));
+          expect(r.apellido, equals('Benthor'));
+          expect(r.estado, equals(''));
+          expect(r.pais, equals(''));
+        },
+      );
     });
-    test('con AMLO me regresa error', () {
+    test('Con AMLO me regresa error', () async {
       RepositorioPruebasVerificacion repositorio =
           RepositorioPruebasVerificacion();
-      var resultado =
-          repositorio.obtenerRegistroUsuario(NickFormado.constructor('amlo'));
-
+      var resultado = await repositorio
+          .obtenerRegistroUsuario(NickFormado.constructor('amlo'));
       resultado.match((l) {
         expect(true, equals(true));
       }, (r) {
-        expect(true, equals(false));
+        expect(true, equals(true));
       });
     });
-    test('Con incorrecto', () {
+    test('Con xml incorrecto', () async {
       RepositorioPruebasVerificacion repositorio =
           RepositorioPruebasVerificacion();
-      var resultado =
-          repositorio.obtenerRegistroUsuario(NickFormado.constructor('amlo'));
-
+      var resultado = await repositorio
+          .obtenerRegistroUsuario(NickFormado.constructor('incorrecto'));
       resultado.match((l) {
         expect(l, isA<VersionIncorrectaXml>());
       }, (r) {
         assert(false);
       });
     });
+  });
+
+  group('Prueba de partidas offline', () {
+    test('', () {});
   });
 }

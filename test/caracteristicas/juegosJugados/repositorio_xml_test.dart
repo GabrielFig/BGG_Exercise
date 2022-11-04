@@ -1,7 +1,4 @@
 import 'package:boar_game/caracteristicas/JuegosJugados/repositorio_xml.dart';
-import 'package:boar_game/caracteristicas/repositorio_verificacion.dart';
-import 'package:boar_game/dominio/problema.dart';
-import 'package:boar_game/dominio/registro_usuario.dart';
 import 'package:boar_game/dominio/variable_dominio.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -16,6 +13,7 @@ void main() {
       expect(r.length, equals(1));
     });
   });
+
   test('Si le paso fokuleh me debe regresar cuatro xml', () async {
     RepositorioXmlPruebas repositorio = RepositorioXmlPruebas();
     final resulatdo =
