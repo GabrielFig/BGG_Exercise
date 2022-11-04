@@ -6,7 +6,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:xml/xml.dart';
 import 'package:http/http.dart' as http;
 
-abstract class repositorioVerificacion {
+abstract class RepositorioVerificacion {
   Future<Either<Problema, RegistroUsuario>> obtenerRegistroUsuario(
       NickFormado nick);
 }
@@ -19,7 +19,7 @@ List campos = [
   'lastname'
 ];
 
-class RepositorioReal extends repositorioVerificacion {
+class RepositorioReal extends RepositorioVerificacion {
   @override
   Future<Either<Problema, RegistroUsuario>> obtenerRegistroUsuario(
       NickFormado nick) async {
@@ -42,7 +42,7 @@ class RepositorioReal extends repositorioVerificacion {
   }
 }
 
-class RepositorioPruebasVerificacion extends repositorioVerificacion {
+class RepositorioPruebasVerificacion extends RepositorioVerificacion {
   final String _benthor = """ <?xml version="1.0" encoding="utf-8"?>
       <user id="597373" name="benthor" termsofuse="https://boardgamegeek.com/xmlapi/termsofuse">
 										<firstname value="Benthor" />	
