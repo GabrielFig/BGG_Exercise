@@ -1,5 +1,10 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
+import 'package:boar_game/caracteristicas/JuegosJugados/repositorio_juegojugado.dart';
+import 'package:boar_game/caracteristicas/JuegosJugados/repositorio_xml.dart';
 import 'package:boar_game/caracteristicas/repositorio_verificacion.dart';
+import 'package:boar_game/dominio/juego_jugado.dart';
 import 'package:boar_game/dominio/problema.dart';
 import 'package:boar_game/dominio/registro_usuario.dart';
 import 'package:boar_game/dominio/variable_dominio.dart';
@@ -10,7 +15,22 @@ class Creandose extends Estado {}
 
 class SolicitandoNombre extends Estado {}
 
+class MostrarJuegos extends Evento {
+  final String name;
+
+  MostrarJuegos(this.name);
+}
+
+class EsperandoListaJuegos extends Estado {}
+
 class EsperandoConfirmacion extends Estado {}
+
+class MostrandoListaJuegos extends Estado {
+  final Set<JuegoJugado> listaJuegos;
+  final String jugador;
+
+  MostrandoListaJuegos(this.listaJuegos, this.jugador);
+}
 
 class MostrandoNombreConfirmado extends Estado {
   final RegistroUsuario registroUsuario;
@@ -58,6 +78,35 @@ class BlocVerificacion extends Bloc<Evento, Estado> {
       }, (r) {
         emit(MostrandoNombreConfirmado(r));
       });
+    });
+    on<MostrarJuegos>((event, emit) {
+      String file = "";
+      if (event.name == "benthor") {
+        try {
+          file = File('.lib/caracteristicas/JuegosJugados/all_benthor.txt')
+              .readAsStringSync();
+        } catch (e) {
+          file = "1,prueba\n2,prueba2";
+        }
+      }
+      if (event.name == "fokuleh") {
+        try {
+          file = File('.lib/caracteristicas/JuegosJugados/all_fokuleh.txt')
+              .readAsStringSync();
+        } catch (e) {
+          file = "1,nombre\n2,nombre2";
+        }
+      }
+      Set<JuegoJugado> jsonJuegos = {};
+      for (var juego in file.split('\n')) {
+        if (juego != "") {
+          String nombre = juego.split(',')[1];
+          String id = juego.split(',')[0];
+          jsonJuegos.add(JuegoJugado.constructor(
+              idPropuesta: id, nombrePropuesta: nombre));
+        }
+      }
+      emit(MostrandoListaJuegos(jsonJuegos, event.name));
     });
   }
 }

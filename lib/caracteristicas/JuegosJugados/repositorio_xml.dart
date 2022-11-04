@@ -35,7 +35,6 @@ class RepositorioXmlPruebas extends RepositorioXml {
     XmlDocument documento = XmlDocument.parse(elXml);
     int totalJugadas =
         int.parse(documento.getElement("plays")!.getAttribute("total")!);
-    print(totalJugadas);
     int paginas = (totalJugadas / tamanoPagina).ceil();
     return paginas;
   }
@@ -90,7 +89,6 @@ class RepositorioXmlReal extends RepositorioXml {
       final resultado = await _obtenerXmlOnline(nick.valor);
       final elXml = resultado;
       int cuantasPaginas = _obtenerCuantasPaginasDesdeXmlReal(elXml.toString());
-      print('Numero de Paginas: $cuantasPaginas');
       List<String> nombrePaginas =
           _obtenerNombresPaginasReal(cuantasPaginas, nick);
       List<String> resultadoFinal = [];

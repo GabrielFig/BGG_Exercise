@@ -94,7 +94,7 @@ class RepositorioPruebasVerificacion extends RepositorioVerificacion {
   @override
   Future<Either<Problema, RegistroUsuario>> obtenerRegistroUsuario(
       NickFormado nick) {
-    if (nick.valor == 'benthor') {
+    if (nick.valor == 'benthor' || nick.valor == 'fokuleh') {
       final documento = XmlDocument.parse(_benthor);
       return Future.value(obtenerRegistroUsuarioDesdeXML(documento));
     }
