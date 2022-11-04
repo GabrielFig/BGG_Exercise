@@ -35,6 +35,7 @@ class RepositorioXmlPruebas extends RepositorioXml {
     XmlDocument documento = XmlDocument.parse(elXml);
     int totalJugadas =
         int.parse(documento.getElement("plays")!.getAttribute("total")!);
+    print(totalJugadas);
     int paginas = (totalJugadas / tamanoPagina).ceil();
     return paginas;
   }

@@ -9,8 +9,8 @@ import '../../dominio/variable_dominio.dart';
 import 'package:flutter/cupertino.dart';
 
 abstract class RepositorioJuegosJugados {
-  final RepositorioXml repositorioXml;
-  RepositorioJuegosJugados(this.repositorioXml);
+  final RepositorioXml repositorioXML;
+  RepositorioJuegosJugados(this.repositorioXML);
   Future<Either<Problema, Set<JuegoJugado>>> obtenerJuegosJugados(
       NickFormado nick);
 }
@@ -22,7 +22,7 @@ class RepositorioJuegosJugadosReal extends RepositorioJuegosJugados {
   Future<Either<Problema, Set<JuegoJugado>>> obtenerJuegosJugados(
       NickFormado nick) async {
     Either<Problema, List<String>> resultadoXml =
-        await repositorioXml.obtenerXml(nick);
+        await repositorioXML.obtenerXml(nick);
 
     return resultadoXml.match((l) {
       return left(l);
@@ -39,7 +39,7 @@ class RepositorioJuegosJugadosPruebas extends RepositorioJuegosJugados {
   Future<Either<Problema, Set<JuegoJugado>>> obtenerJuegosJugados(
       NickFormado nick) async {
     final Either<Problema, List<String>> resultadoXml =
-        await repositorioXml.obtenerXml(nick);
+        await repositorioXML.obtenerXml(nick);
     return resultadoXml.match((l) {
       return Left(l);
     }, (r) {
@@ -55,7 +55,8 @@ class RepositorioJuegosJugadosPruebas extends RepositorioJuegosJugados {
       final conjuntoIterable = losPlay.map((e) {
         String nombre = e.getAttribute('name')!;
         String id = e.getAttribute('objectid')!;
-        return JuegoJugado.constructor(idPropuesta: id, nombrePropuesta: nombre);
+        return JuegoJugado.constructor(
+            idPropuesta: id, nombrePropuesta: nombre);
       });
       final conjunto = Set<JuegoJugado>.from(conjuntoIterable);
       return Right(conjunto);
@@ -80,18 +81,18 @@ class RepositorioJuegosJugadosPruebas extends RepositorioJuegosJugados {
     List<String> jugadasPorPaginas = [];
     if (nombre == "benthor") {
       jugadasPorPaginas.add(
-          File('test/verificacion/juegos_jugados/benthor1.xml')
+          File('.test/caracteristicas/juegosJugados/benthor.xml')
               .readAsStringSync());
     }
     if (nombre == "fokuleh") {
       jugadasPorPaginas.add(
-          File('./test/verificacion/juegos_jugados/fokuleh1.xml')
+          File('.test/caracteristicas/juegosJugados/fokuleh1.xml')
               .readAsStringSync());
       jugadasPorPaginas.add(
-          File('./test/verificacion/juegos_jugados/fokuleh2.xml')
+          File('.test/caracteristicas/juegosJugados/fokuleh2.xml')
               .readAsStringSync());
       jugadasPorPaginas.add(
-          File('./test/verificacion/juegos_jugados/fokuleh3.xml')
+          File('.test/caracteristicas/juegosJugados/fokuleh3.xml')
               .readAsStringSync());
     }
     return jugadasPorPaginas;
