@@ -3,6 +3,7 @@ import 'package:boar_game/caracteristicas/verificacion/bloc.dart';
 import 'package:boar_game/caracteristicas/vistas/vista-NombreNoConfirmado.dart';
 import 'package:boar_game/caracteristicas/vistas/vista-cargando.dart';
 import 'package:boar_game/caracteristicas/vistas/vista-solicitandoNombre.dart';
+import 'package:boar_game/caracteristicas/vistas/vista_juegos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,7 +27,7 @@ class MiAplicacionInyectada extends StatelessWidget {
         });
         return blocVerificacion;
       },
-      child: Aplicacion(),
+      child: const Aplicacion(),
     );
   }
 }
@@ -44,22 +45,28 @@ class Aplicacion extends StatelessWidget {
             builder: ((context) {
               var estado = context.watch<BlocVerificacion>().state;
               if (estado is Creandose) {
-                return VistaCargando();
+                return const VistaCargando();
               }
               if (estado is SolicitandoNombre) {
-                return VistaSolicitandoNombre();
+                return const VistaSolicitandoNombre();
               }
               if (estado is MostrandoSolicitudActualizacion) {
                 return const VistaMostrandoSolicitudActualizacion();
               }
-              if (estado is MostrandoNombreConfirmado) {
-                return NombreConfirmado(estado.registroUsuario);
-              }
-              if (estado is MostrandoNombreNoConfirmado) {
-                return NombreNoConfirmado(estado.nick);
-              }
-              if (estado is EsperandoConfirmacion) {
-                return VistaCargando();
+              // if (estado is MostrandoNombreConfirmado) {
+              //   return NombreConfirmado(estado.registroUsuario);
+              // }
+              // if (estado is MostrandoNombreNoConfirmado) {
+              //   return NombreNoConfirmado(estado.nick);
+              // }
+              // if (estado is EsperandoConfirmacion) {
+              //   return const VistaCargando();
+              // }
+              if (estado is MostrandoListaJuegos) {
+                return VistaListaJuegos(
+                  games: estado.listaJuegos,
+                  player: estado.jugador,
+                );
               }
               return const Text('Huye');
             }),

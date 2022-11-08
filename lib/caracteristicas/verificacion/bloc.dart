@@ -1,3 +1,5 @@
+// ignore_for_file: unrelated_type_equality_checks
+
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
@@ -16,7 +18,7 @@ class Creandose extends Estado {}
 class SolicitandoNombre extends Estado {}
 
 class MostrarJuegos extends Evento {
-  final String name;
+  final NickFormado name;
 
   MostrarJuegos(this.name);
 }
@@ -26,8 +28,8 @@ class EsperandoListaJuegos extends Estado {}
 class EsperandoConfirmacion extends Estado {}
 
 class MostrandoListaJuegos extends Estado {
-  final Set<JuegoJugado> listaJuegos;
-  final String jugador;
+  final List<String> listaJuegos;
+  final NickFormado jugador;
 
   MostrandoListaJuegos(this.listaJuegos, this.jugador);
 }
@@ -66,47 +68,37 @@ class BlocVerificacion extends Bloc<Evento, Estado> {
     on<Creado>((event, emit) {
       emit(SolicitandoNombre());
     });
-    on<NombreRecibido>((event, emit) async {
-      emit(EsperandoConfirmacion());
-      final resultado =
-          await _repositorioVerificacion.obtenerRegistroUsuario(event.nick);
-      resultado.match((l) {
-        if (l is VersionIncorrectaXml) emit(MostrandoSolicitudActualizacion());
-        if (l is UsuarioNoRegistrado) {
-          emit(MostrandoNombreNoConfirmado(event.nick));
-        }
-      }, (r) {
-        emit(MostrandoNombreConfirmado(r));
-      });
-    });
-    on<MostrarJuegos>((event, emit) {
+    on<NombreRecibido>((event, emit) {
       String file = "";
-      if (event.name == "benthor") {
+      print(event.nick.valor);
+      if (event.nick.valor == "benthor") {
         try {
-          file = File('.lib/caracteristicas/JuegosJugados/all_benthor.txt')
+          file = File('./lib/caracteristicas/JuegosJugados/all_benthor.txt')
               .readAsStringSync();
         } catch (e) {
-          file = "1,prueba\n2,prueba2";
+          file = "1*prueba\n2*prueba2";
         }
       }
-      if (event.name == "fokuleh") {
+      if (event.nick == "fokuleh") {
         try {
-          file = File('.lib/caracteristicas/JuegosJugados/all_fokuleh.txt')
+          file = File('./lib/caracteristicas/JuegosJugados/all_fokuleh.txt')
               .readAsStringSync();
         } catch (e) {
-          file = "1,nombre\n2,nombre2";
+          file = "1*nombre\n2*nombre2";
         }
       }
-      Set<JuegoJugado> jsonJuegos = {};
+      print(file);
+      List<String> listaJuegos = [];
       for (var juego in file.split('\n')) {
         if (juego != "") {
-          String nombre = juego.split(',')[1];
-          String id = juego.split(',')[0];
-          jsonJuegos.add(JuegoJugado.constructor(
-              idPropuesta: id, nombrePropuesta: nombre));
+          String nombre = juego.split('*')[1];
+          String id = juego.split('*')[0];
+          listaJuegos.add('id: $id   nombre: $nombre');
         }
       }
-      emit(MostrandoListaJuegos(jsonJuegos, event.name));
+
+      print(listaJuegos);
+      emit(MostrandoListaJuegos(listaJuegos, event.nick));
     });
   }
 }

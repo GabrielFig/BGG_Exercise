@@ -84,13 +84,6 @@ class RepositorioPruebasVerificacion extends RepositorioVerificacion {
 										<firstname value="" />			<lastname value="" />			<avatarlink value="N/A" />			<yearregistered value="" />			<lastlogin value="" />			<stateorprovince value="" />			<country value="" />			<webaddress value="" />			<xboxaccount value="" />			<wiiaccount value="" />			<psnaccount value="" />			<battlenetaccount value="" />			<steamaccount value="" />			<traderating value="362" />	
 				</user> """;
 
-  // const campoValor = 'value';
-
-  // var x = documento.findAllElements(campo).first.getAttribute(campoValor);
-
-  // return documento.findAllElements(campo).first.getAttribute(campoValor) ??
-  //     '';
-
   @override
   Future<Either<Problema, RegistroUsuario>> obtenerRegistroUsuario(
       NickFormado nick) {
