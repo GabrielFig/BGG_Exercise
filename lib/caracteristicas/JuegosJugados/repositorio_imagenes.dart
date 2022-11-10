@@ -6,19 +6,18 @@ import 'package:fpdart/fpdart.dart';
 import 'package:xml/xml.dart';
 
 abstract class RepositorioImagenes {
-  Future<Either<Problema, List<String>>> obtenerImagen(NickFormado nick);
+  Future<Either<Problema, List<String>>> obtenerImagen(String id);
 }
 
 class RepositorioImagenesPrueba extends RepositorioImagenes {
   List<String> obtenerCampoImagen(XmlDocument documento) {
-    try {
-      List result = [];
-      result.add(thumbImage);
-      result.add(gameDesigner);
-      return Right(result);
-    } catch (e) {
-      return Left(VersionIncorrectaXml());
-    }
+    String _designer = 'boardgamedesigner';
+    String _img = 'thumbnail';
+
+    List<String> result = [];
+    result.add(documento.getElement(_img) as String);
+    result.add(documento.getElement(_img) as String);
+    return result;
   }
 
   @override
@@ -109,477 +108,123 @@ class RepositorioImagenesPrueba extends RepositorioImagenes {
 					<result level="5" value="Unplayable in another language" numvotes="0" />
 				</results>					
 	</poll> 			      			 			      				
-		 			
 
-			
 		
 					<link type="boardgamecategory" id="1089" value="Animals" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamecategory" id="1084" value="Environmental" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamecategory" id="1013" value="Farming" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamecategory" id="1086" value="Territory Building" />
 		
-									
-			
-
-			      				
-		 			
-
-			
-		
 					<link type="boardgamemechanic" id="2001" value="Action Points" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamemechanic" id="2912" value="Contracts" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamemechanic" id="2072" value="Dice Rolling" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamemechanic" id="2875" value="End Game Bonuses" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamemechanic" id="2676" value="Grid Movement" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamemechanic" id="2026" value="Hexagon Grid" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamemechanic" id="2011" value="Modular Board" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamemechanic" id="2081" value="Network and Route Building" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamemechanic" id="2048" value="Pattern Building" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamemechanic" id="2004" value="Set Collection" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamemechanic" id="2002" value="Tile Placement" />
 		
-									
-			
-
-			      				
-		 			
-
-			
-		
 					<link type="boardgamefamily" id="20718" value="Animals: Pandas" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamefamily" id="5607" value="Components: 3-Dimensional (3D)" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamefamily" id="25158" value="Components: Miniatures" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamefamily" id="68769" value="Components: Wooden pieces &amp; boards" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamefamily" id="10634" value="Country: Japan" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamefamily" id="70360" value="Digital Implementations: Board Game Arena" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamefamily" id="48865" value="Theme: Gardening" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamefamily" id="48871" value="Theme: Nature" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamefamily" id="57181" value="Theme: Trees and Forests" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamefamily" id="28947" value="Theme: Weather" />
 		
-									
-			
-
-			      				
-		 			
-
-			
-		
 					<link type="boardgameexpansion" id="174095" value="Takenoko: Chibis" />
-		
-									
-			
 
-			      			
-
-			      			
-
-			      			
-
-			      				
-		 			
-
-			
-		
 					<link type="boardgamecompilation" id="319765" value="타케노코: 빅 박스 (Takenoko Big Box)" />
-		
-									
-			
-
-			      			
-
-			      			
-
-			      	      	      				
-		 			
-
-			
 		
 					<link type="boardgamedesigner" id="9714" value="Antoine Bauza" />
 		
-									
-			
-
-			      				
-		 			
-
-			
-		
 					<link type="boardgameartist" id="12935" value="Nicolas Fructus" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgameartist" id="54125" value="Picksel" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgameartist" id="48431" value="Yuio" />
-		
-									
-			
 
-			      	      				
-		 			
-
-			
-		
 					<link type="boardgamepublisher" id="19260" value="Bombyx" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamepublisher" id="5400" value="Matagot" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamepublisher" id="157" value="Asmodee" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamepublisher" id="15889" value="Asterion Press" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamepublisher" id="6784" value="Bergsala Enigma (Enigma)" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamepublisher" id="26638" value="Bureau de Juegos" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamepublisher" id="5657" value="Filosofia Éditions" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamepublisher" id="19047" value="FoxMind Israel" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamepublisher" id="33618" value="Fractal Juegos" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamepublisher" id="15605" value="Galápagos Jogos" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamepublisher" id="45134" value="Geekach Games" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamepublisher" id="8820" value="Gém Klub Kft." />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamepublisher" id="1391" value="Hobby Japan" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamepublisher" id="18852" value="Hobby World" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamepublisher" id="6214" value="Kaissa Chess &amp; Games" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamepublisher" id="25203" value="Lex Games" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamepublisher" id="48236" value="Mostafil Games" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamepublisher" id="39" value="Pegasus Spiele" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamepublisher" id="7466" value="Rebel Sp. z o.o." />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamepublisher" id="21053" value="REXhry" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamepublisher" id="50269" value="Salta da Caixa" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamepublisher" id="39058" value="Surfin' Meeple" />
-		
-									
-				
-		 			
 
-			
-		
 					<link type="boardgamepublisher" id="39774" value="Tower Tactic Games" />
-		
-									
-			
-
-			
-	
-
-	
-
-	
-	
-	
-   
-	
-          
 </item>
 </items>""";
-      } catch (e) {}
+        XmlDocument doc = XmlDocument.parse(xml);
+        return Right(obtenerCampoImagen(doc));
+      } catch (e) {
+        return Left(VersionIncorrectaXml());
+      }
     }
+    return Left(VersionIncorrectaXml());
   }
 }
