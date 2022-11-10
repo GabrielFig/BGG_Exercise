@@ -70,7 +70,6 @@ class BlocVerificacion extends Bloc<Evento, Estado> {
     });
     on<NombreRecibido>((event, emit) {
       String file = "";
-      print(event.nick.valor);
       if (event.nick.valor == "benthor") {
         try {
           file = File('./lib/caracteristicas/JuegosJugados/all_benthor.txt')
@@ -87,7 +86,7 @@ class BlocVerificacion extends Bloc<Evento, Estado> {
           file = "1*nombre\n2*nombre2";
         }
       }
-      print(file);
+
       List<String> listaJuegos = [];
       for (var juego in file.split('\n')) {
         if (juego != "") {
@@ -97,7 +96,6 @@ class BlocVerificacion extends Bloc<Evento, Estado> {
         }
       }
 
-      print(listaJuegos);
       emit(MostrandoListaJuegos(listaJuegos, event.nick));
     });
   }
