@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:boar_game/caracteristicas/JuegosJugados/repositorio_imagenes.dart';
 import 'package:boar_game/caracteristicas/JuegosJugados/repositorio_juegojugado.dart';
 import 'package:boar_game/caracteristicas/JuegosJugados/repositorio_xml.dart';
 import 'package:boar_game/caracteristicas/repositorio_verificacion.dart';
@@ -69,6 +70,8 @@ class BlocVerificacion extends Bloc<Evento, Estado> {
       emit(SolicitandoNombre());
     });
     on<NombreRecibido>((event, emit) {
+      RepositorioImagenesPrueba repositorioImagenes =
+          RepositorioImagenesPrueba();
       String file = "";
       if (event.nick.valor == "benthor") {
         try {
@@ -92,7 +95,10 @@ class BlocVerificacion extends Bloc<Evento, Estado> {
         if (juego != "") {
           String nombre = juego.split('*')[1];
           String id = juego.split('*')[0];
-          listaJuegos.add('id: $id   nombre: $nombre');
+
+          final img = repositorioImagenes.obtenerImagen(id);
+
+          listaJuegos.add('id: $id   nombre: $nombre  img_designer: $img');
         }
       }
 
