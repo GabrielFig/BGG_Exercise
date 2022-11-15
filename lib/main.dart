@@ -64,9 +64,9 @@ class Aplicacion extends StatelessWidget {
               // }
               if (estado is MostrandoListaJuegos) {
                 return VistaListaJuegos(
-                  games: estado.listaJuegos,
-                  player: estado.jugador,
-                );
+                    games: estado.listaJuegos,
+                    player: estado.jugador,
+                    data: estado.datos);
               }
               return const Text('Huye');
             }),

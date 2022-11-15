@@ -29,10 +29,11 @@ class EsperandoListaJuegos extends Estado {}
 class EsperandoConfirmacion extends Estado {}
 
 class MostrandoListaJuegos extends Estado {
-  final List<String> listaJuegos;
+  final List<JuegoJugado> listaJuegos;
   final NickFormado jugador;
+  final List<String> datos;
 
-  MostrandoListaJuegos(this.listaJuegos, this.jugador);
+  MostrandoListaJuegos(this.listaJuegos, this.jugador, this.datos);
 }
 
 class MostrandoNombreConfirmado extends Estado {
@@ -69,7 +70,7 @@ class BlocVerificacion extends Bloc<Evento, Estado> {
     on<Creado>((event, emit) {
       emit(SolicitandoNombre());
     });
-    on<NombreRecibido>((event, emit) {
+    on<NombreRecibido>((event, emit) async {
       RepositorioImagenesPrueba repositorioImagenes =
           RepositorioImagenesPrueba();
       String file = "";
@@ -90,19 +91,19 @@ class BlocVerificacion extends Bloc<Evento, Estado> {
         }
       }
 
+      Set<JuegoJugado> juegosObtenidos = {};
       List<String> listaJuegos = [];
       for (var juego in file.split('\n')) {
         if (juego != "") {
-          String nombre = juego.split('*')[1];
-          String id = juego.split('*')[0];
-
-          final img = repositorioImagenes.obtenerImagen(id);
-
-          listaJuegos.add('id: $id   nombre: $nombre  img_designer: $img');
+          String id = juego.split('.')[0];
+          String nombre = juego.split('.')[1];
+          juegosObtenidos.add(JuegoJugado.constructor(
+              idPropuesta: id, nombrePropuesta: nombre));
+          listaJuegos.add(repositorioImagenes.obtenerImagen(id));
         }
       }
 
-      emit(MostrandoListaJuegos(listaJuegos, event.nick));
+      emit(MostrandoListaJuegos(listaJuegos, nombre, datos));
     });
   }
 }
